@@ -8,8 +8,9 @@ GNU AFFERO GENERAL PUBLIC LICENSE v3
 
 ### Citation
 
-- **pour l'application :** Commenges H. Cuyala S. (2016) **sémogéo : Les mots-clés des géographes en réseaux**, UMR 8504 Géographie-cités.
-- **pour les données :** Laboratoire Intergéo-Prodig, Cuyala S. Commenges H., **Index des mots-clés du Répertoire des géographes (1973-2007)** (voir détails ci-dessous)
+- **pour les données :** Laboratoire Intergéo-Prodig, Cuyala S., Commenges H., **Index des mots-clés du Répertoire des géographes (1973-2007)** (voir détails ci-dessous)
+- **pour l'application :** Commenges H., Cuyala S. (2016) **sémogéo : Les mots-clés des géographes en réseaux**, UMR 8504 Géographie-cités.
+
 
 ### Méthodologie
 
@@ -18,6 +19,8 @@ GNU AFFERO GENERAL PUBLIC LICENSE v3
 Les données sont issues de cinq éditions du **Répertoire des géographes**, répertoire professionnel produit par la laboratoire Intergéo, devenu UMR 8586 Prodig, depuis 1969.
 
 Ces données ont été numérisées et enrichies par S. Cuyala et H. Commenges. Chaque édition du répertoire comporte un index de mots-clés déclarés par les géographes recensés. Les index de mots-clés ont été scannés et océrisés pour cinq éditions du répertoire (1973, 1980, 1989, 1998, 2007). Ils sont ensuite transformés en graphes : les mots-clés sont les noeuds du réseau, ils sont reliés s'il y a co-occurence au sein des centres d'intérêt des géographes recensés. Par exemple, si un géographe déclare "urbanisme" et "transport", un lien de poids 1 est créé entre ces deux mots-clés. Les données initiales sont enrichies de mesures calculées sur les graphes : degré degré des noeuds, poids des liens, communautés de mots, etc.
+
+[Téléchargement des données](https://github.com/hcommenges/semogeo/raw/master/BBDD_semogeo.zip) : cinq graphes correspondant aux cinq éditions du RG sous forme de liste d'objets `igraph` au format `RData` et cinq graphes au format `graphml`.
 
 #### Onglets d'exploration
 
