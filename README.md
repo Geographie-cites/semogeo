@@ -1,24 +1,57 @@
-## User guide
 
 ### Description
 Outil interactif d'analyse des mots-clefs du *Répertoire des géographes*.
 
 ### License
 
-GNU GPLv3
+GNU AFFERO GENERAL PUBLIC LICENSE v3
 
 ### Citation
 
-Les données sont issues de ...
+- **pour l'application :** Commenges H. Cuyala S. (2016) **sémogéo : Les mots-clés des géographes en réseaux**, UMR 8504 Géographie-cités.
+- **pour les données :** Laboratoire Intergéo-Prodig, Cuyala S. Commenges H., **Index des mots-clés du Répertoire des géographes (1973-2007)** (voir détails ci-dessous)
 
-Bla bla bla
-
-------
 ### Méthodologie
+
+#### Données
+
+Les données sont issues de cinq éditions du **Répertoire des géographes**, répertoire professionnel produit par la laboratoire Intergéo, devenu UMR 8586 Prodig, depuis 1969.
+
+Ces données ont été numérisées et enrichies par S. Cuyala et H. Commenges. Chaque édition du répertoire comporte un index de mots-clés déclarés par les géographes recensés. Les index de mots-clés ont été scannés et océrisés pour cinq éditions du répertoire (1973, 1980, 1989, 1998, 2007). Ils sont ensuite transformés en graphes : les mots-clés sont les noeuds du réseau, ils sont reliés s'il y a co-occurence au sein des centres d'intérêt des géographes recensés. Par exemple, si un géographe déclare "urbanisme" et "transport", un lien de poids 1 est créé entre ces deux mots-clés. Les données initiales sont enrichies de mesures calculées sur les graphes : degré degré des noeuds, poids des liens, communautés de mots, etc.
+
+#### Onglets d'exploration
+
+**Toutes les analyses sont disponibles pour les cinq éditions du Répertoire (RG1973, RG1980, RG1989, RG1998, RG2007).**
+
+**1. Résumé de l'information** 
+
+Informations sur les noeuds et sur les liens :
+
+- **Noeuds :** pour chaque mot-clé le nombre de géographes (NB_AUTH) déclarant le mot et le degré (DEGRE) du mot, c'est-à-dire le nombre de voisins dans le réseau.
+- **Liens :** pour chaque lien -- couple de mots -- le poids observé (P_OBSERVE), c'est-à-dire le nombre de géographes qui déclarent les deux mots ensemble, le poids théorique et le résidu (voir détails ci-dessous).
+
+
+**2. Communautés** 
+
+Communautés de mots-clés fortement reliés entre eux. Pour chaque édition du **Répertoire** un algorithme de détection de communautés est appliqué sur le réseau (voir détails ci-dessous) qui produit des groupes de mots fortement reliés entre eux et peu reliés avec le reste du réseau.
+
+Le graphique peut être paramétré avec différentes variables : taille des noeuds uniforme, ou fonction du nombre de géographes (NB_AUTH), ou fonction du degré ; épaisseur des liens fonction du poids observés ou du résidu. 
+
+**3. Réseau d'ego** 
+
+Le réseau d'ego est un graphe créé à partir d'une sélection d'un seul mot. Un sous-réseau est créé qui comprend le mot choisi (ego), tous ses voisins, les liens entre ego et ses voisins et les liens au sein des voisins.
+
+Le graphique peut être paramétré avec différentes variables : taille des noeuds uniforme, ou fonction du nombre de géographes (NB_AUTH), ou fonction du degré ; épaisseur des liens fonction du poids observés ou du résidu. 
+
+**4. Aire sémantique** 
+
+L'aire sémantique est une représentation dérivée du réseau d'ego qui montre une relation préférentielle. La base est un sous-réseau qui comprend le mot choisi (ego), tous ses voisins, ainsi que les liens entre ego et ses voisins. À la différence du réseau d'ego présenté plus haut, les liens au sein des voisins sont supprimés. Ego est placé au centre du cercle et ses voisins sont placés à une distance proportionnelle à l'étroitesse du lien avec ego. Plus précisément cette distance est inversement proportionnelle au résidu (RESIDU, voir détails ci-dessous).
+
+La taille de la police de caractères peut être paramétrées. Celle-ci est fonction du poids du mot, c'est-à-dire du nombre de géographes le citant. 
 
 #### Attributs des noeuds et des liens
 
-Les noeuds du réseau sont dotés de deux attributs: le nombre de géographes qui citent le mot et le degré du mot, c'est-à-dire l'ensemble des liens reliant ce mot aux autres mots (pas de distinction entre degré entrant/sortant puisque le graphe est non dirigé). 
+Les noeuds du réseau sont dotés de deux attributs : le nombre de géographes qui citent le mot et le degré du mot, c'est-à-dire l'ensemble des liens reliant ce mot aux autres mots (pas de distinction entre degré entrant/sortant puisque le graphe est non dirigé). 
 
 Les liens du réseau sont dotés de deux attributs. Le premier est le poids observé: pour deux mots A et B, le poids observé est le nombre de géographes qui co-citent ces deux mots. Le second est un attribut de résidu relatif qui est calculé comme le rapport entre le poids observé du lien et le poids espéré ou théorique. Ce poids espéré est conçu comme la probabilité d'occurrence de deux tirages successifs d'un noeud d'origine puis d'un noeud de destination. La probabilité de tirer un noeud d'origine puis un noeud de destination est l'intersection de deux probabilités dépendantes. La probabilité de tirer un noeud *i* d'origine est égale à <math xmlns="http://www.w3.org/1998/Math/MathML">
   <mfrac>
@@ -270,6 +303,4 @@ La modularité peut être utilisée comme mesure de la qualité d'une partition 
 
 ------
 
-#### Onglet bla bla
 
-Bla bla

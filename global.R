@@ -7,6 +7,8 @@
 
 # load packages ----
 
+library(shiny)
+library(shinythemes)
 library(reshape2)
 library(igraph)
 library(ggplot2)
@@ -17,17 +19,21 @@ library(dplyr)
 # plot communities ----
 
 VisuComm <- function(g, year, comm, vertcol, vertsize, vfacsize, edgesize, efacsize, textsize){
-  # circle layout with sampled coordinates
+
   oriCoords <- layout.circle(g)
-  corrCoords <- oriCoords[sample(seq(1, nrow(oriCoords), 1), size = nrow(oriCoords), replace = FALSE), ]
+  # circle layout with sampled coordinates
+  # corrCoords <- oriCoords[sample(seq(from = 1, to = nrow(oriCoords), by = 1),
+  #                                size = nrow(oriCoords),
+  #                                replace = FALSE), ]
 
   plot(g,
        main = paste("Communauté \"", comm, "\" - ", year, sep = ""),
-       edge.color = "grey60",
+       edge.color = "grey70",
        edge.width = efacsize * edgesize,
        edge.curved = F,
        edge.arrow.mode = "-",
        edge.arrow.size = 0.01,
+       vertex.shape = "circle",
        vertex.color = vertcol,
        vertex.frame.color = "white",
        vertex.label = V(g)$name,
@@ -35,7 +41,7 @@ VisuComm <- function(g, year, comm, vertcol, vertsize, vfacsize, edgesize, efacs
        vertex.label.family = "sans-serif",
        vertex.label.cex = textsize / 10,
        vertex.size = vfacsize * vertsize,
-       layout = corrCoords
+       layout = oriCoords
   )
 }
 
@@ -99,27 +105,31 @@ VisuSem <- function(g, year, kw, textsizemin, textsizemax){
   tabPoints <- get.data.frame(x = g, what = "vertices")
   tabLinks <- get.data.frame(x = g, what = "edges")
   tabLinks$NODES <- ifelse(tabLinks$from == kw, tabLinks$to, tabLinks$from)
-  tabPoints <- tabPoints %>% left_join(x = ., y = tabLinks, by = c("name" = "NODES"))
+  tabPoints <- merge(x = tabPoints, y = tabLinks, by.x = "name", by.y = "NODES", all.x = TRUE)
   
   # compute distance from ego
   tabPoints$DIST <- 1 / tabPoints$relresid
-  thresRadis <- seq(0, 0.1 + max(tabPoints$DIST, na.rm = TRUE), 0.1)
-  tabPoints$X <- cut(tabPoints$DIST, breaks = thresRadis, labels = thresRadis[-1], include.lowest = TRUE, right = FALSE)
+  coefCorr <- ifelse(max(tabPoints$DIST, na.rm = TRUE) < 1, 1 / max(tabPoints$DIST, na.rm = TRUE), 1)
+  tabPoints$DISTCORR <- tabPoints$DIST * coefCorr
+  thresRadis <- seq(0, 0.1 + max(tabPoints$DISTCORR, na.rm = TRUE), 0.1)
+  tabPoints$X <- cut(tabPoints$DISTCORR, breaks = thresRadis, labels = thresRadis[-1], include.lowest = TRUE, right = FALSE)
   tabPoints <- tabPoints %>% group_by(X) %>% mutate(NPTS = n())
   
   # get x values
   tabPoints <- tabPoints %>% do(GetXvalues(df = .))
-  tabPoints[tabPoints$name == kw, c("XVAL", "DIST")] <- c(0, 0)
+  tabPoints[tabPoints$name == kw, c("XVAL", "DISTCORR")] <- c(0, 0)
   
   # prepare plot
   tabPoints$IDEGO <- ifelse(tabPoints$name == kw, 2, 1)
-  tabCircle <- data.frame(XVAL = c(0, 360), DIST = 1)
+  tabCircle <- data.frame(XVAL = c(0, 360), DISTCORR = 1)
   
   # draw plot
   circVis <- ggplot() + 
-    geom_line(data = tabCircle, aes(x = XVAL, y = DIST), color = "#df691a") + 
-    geom_text(data = tabPoints, aes(x = XVAL, y = DIST, label = name, fontface = IDEGO, color = IDEGO, size = nbauth)) +
-    scale_colour_manual("Type", values = c("#ebebeb", "#df691a")) +
+    geom_line(data = tabCircle, aes(x = XVAL, y = DISTCORR), color = "grey20") + 
+    geom_text(data = tabPoints, aes(x = XVAL, y = DISTCORR, label = name, fontface = IDEGO, 
+                                    color = factor(IDEGO, levels = 1:2, c("Voisins", "Ego")), 
+                                    size = nbauth)) +
+    scale_colour_manual("Type", values = c("grey50", "grey20")) +
     scale_size_continuous("Number of articles", range = c(textsizemin, textsizemax)) +
     coord_polar(theta = "x") +
     ggtitle(label = paste(kw, year, sep = " - ")) +
