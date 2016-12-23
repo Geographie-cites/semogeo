@@ -8,7 +8,7 @@ GNU AFFERO GENERAL PUBLIC LICENSE v3
 
 ### Citation
 
-- **pour les données :** Laboratoire Intergéo-Prodig, Cuyala S., Commenges H., **Index des mots-clés du Répertoire des géographes (1973-2007)** (voir détails ci-dessous)
+- **pour les données :** Laboratoire Intergéo-Prodig, Cuyala S., Commenges H., **Réseaux des mots-clés du Répertoire des géographes (1973-2007)** (voir détails ci-dessous)
 - **pour l'application :** Commenges H., Cuyala S. (2016) **sémogéo : Les mots-clés des géographes en réseaux**, UMR 8504 Géographie-cités.
 
 
