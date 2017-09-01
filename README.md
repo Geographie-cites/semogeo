@@ -20,7 +20,9 @@ Les données sont issues de cinq éditions du **Répertoire des géographes**, r
 
 Ces données ont été numérisées et enrichies par S. Cuyala et H. Commenges. Chaque édition du répertoire comporte un index de mots-clés déclarés par les géographes recensés. Les index de mots-clés ont été scannés et océrisés pour cinq éditions du répertoire (1973, 1980, 1989, 1998, 2007). Ils sont ensuite transformés en graphes : les mots-clés sont les noeuds du réseau, ils sont reliés s'il y a co-occurence au sein des centres d'intérêt des géographes recensés. Par exemple, si un géographe déclare "urbanisme" et "transport", un lien de poids 1 est créé entre ces deux mots-clés. Les données initiales sont enrichies de mesures calculées sur les graphes : degré degré des noeuds, poids des liens, communautés de mots, etc.
 
-[Téléchargement des données](https://github.com/hcommenges/semogeo/raw/master/BBDD_semogeo.zip) : cinq graphes correspondant aux cinq éditions du RG sous forme de liste d'objets `igraph` au format `RData` et cinq graphes au format `graphml`.
+[Téléchargement des données structurées](https://github.com/hcommenges/semogeo/raw/master/BBDD_semogeo.zip) : cinq graphes correspondant aux cinq éditions du RG sous forme de liste d'objets `igraph` au format `RData` et cinq graphes au format `graphml`.
+
+[Téléchargement des données brutes](https://github.com/hcommenges/semogeo/raw/master/Texte_Index.zip) : cinq fichiers texte issus de l'océrisation des cinq éditions du RG.
 
 #### Onglets d'exploration
 
